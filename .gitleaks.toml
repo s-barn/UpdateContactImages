@@ -1,0 +1,12 @@
+title = "Gitleaks config for UpdateContactImages"
+
+[[rules]]
+description = "Generic high entropy string" 
+# use a conservative rule to avoid false positives
+regex = '''[A-Za-z0-9\/+=]{20,}'''
+tags = ["entropy"]
+
+# Example allowlist entries (adjust as needed)
+[[allowlist]]
+regex = '''^README\.md$'''
+
