@@ -11,3 +11,28 @@ Thumbs.db
 
 # Ignore Visual Studio Code settings
 .vscode/
+
+# Ignore contact/vcard files
+*.vcf
+
+# Ignore common credentials and secrets files
+*.env
+.env.*
+# dotenv local files
+.env.local
+
+# npm/yarn lockfiles that may contain token metadata
+npm-shrinkwrap.json
+
+# Ignore key and certificate files
+*.pem
+*.key
+*.crt
+*.pfx
+
+# Ignore macOS keychain and secrets files
+*.keychain
+
+# Ignore files that may contain exported contact lists or mailboxes
+*.mbox
+*.pst
