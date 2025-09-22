@@ -1,0 +1,25 @@
+#!/bin/sh
+# POSIX wrapper for pre-commit that invokes the PowerShell hook on Windows/Unix
+HOOK_DIR=$(dirname "$0")
+if command -v pwsh >/dev/null 2>&1; then
+  pwsh -NoProfile -ExecutionPolicy Bypass -File "$HOOK_DIR/pre-commit.ps1"
+elif command -v powershell >/dev/null 2>&1; then
+  powershell -NoProfile -ExecutionPolicy Bypass -File "$HOOK_DIR/pre-commit.ps1"
+else
+  echo "PowerShell not found; skipping secret scan." >&2
+  exit 0
+fi
+#!/usr/bin/env pwsh
+# Pre-commit hook: run the repository secret scanner
+$scriptPath = Join-Path -Path $PSScriptRoot -ChildPath "../scripts/check-secrets.ps1"
+if (-Not (Test-Path $scriptPath)) {
+    Write-Host "Secret scanner not found at $scriptPath. Skipping pre-commit scan." -ForegroundColor Yellow
+    exit 0
+}
+
+pwsh -NoProfile -ExecutionPolicy Bypass -File $scriptPath
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Pre-commit secret scan failed. Please remove secrets and try again." -ForegroundColor Red
+    exit 1
+}
+exit 0
